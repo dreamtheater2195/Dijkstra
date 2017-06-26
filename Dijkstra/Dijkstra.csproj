@@ -1,0 +1,161 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{E8D75061-4F31-4827-B06E-E7B527E1E128}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>Dijkstra</RootNamespace>
+    <AssemblyName>Dijkstra</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="C1.C1Flash.2, Version=2.0.20141.88, Culture=neutral, PublicKeyToken=45fc79e7d82d90d7, processorArchitecture=MSIL" />
+    <Reference Include="C1.Win.C1FlexGrid.2, Version=2.6.20142.844, Culture=neutral, PublicKeyToken=79882d576c6336da, processorArchitecture=MSIL" />
+    <Reference Include="C1.Win.C1Input.2, Version=2.0.20101.33244, Culture=neutral, PublicKeyToken=7e7ff60f0c214f9a, processorArchitecture=MSIL" />
+    <Reference Include="C1.Win.C1Ribbon.2, Version=2.0.20101.233, Culture=neutral, PublicKeyToken=79882d576c6336da, processorArchitecture=MSIL" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Design" />
+    <Reference Include="System.Drawing.Design" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Windows" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Classes\Edge.cs" />
+    <Compile Include="Classes\Node.cs" />
+    <Compile Include="Classes\AdjacentNode.cs" />
+    <Compile Include="Classes\AdjacentNodeList.cs" />
+    <Compile Include="DistanceDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DistanceDialog.Designer.cs">
+      <DependentUpon>DistanceDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmMain.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmMain.Designer.cs">
+      <DependentUpon>frmMain.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="DistanceDialog.resx">
+      <DependentUpon>DistanceDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmMain.resx">
+      <DependentUpon>frmMain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\licenses.licx" />
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ico_Abort.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ico_Add.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ico_Back.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ico_Check.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ico_Copy.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ico_Cut.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ico_Delete.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ico_Edit.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ico_Excel.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ico_Exit.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ico_Forward.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ico_Paste.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ico_Print.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ico_Save.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ico_Search.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ico_Update.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ico_Upload.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ico_UploadImage.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
