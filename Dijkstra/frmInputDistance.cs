@@ -10,10 +10,10 @@ using System.Windows.Forms;
 
 namespace Dijkstra
 {
-    public partial class DistanceDialog : Form
+    public partial class frmInputDistance : Form
     {
         private double _distance;
-        public DistanceDialog()
+        public frmInputDistance()
         {
             InitializeComponent();
             _distance = 0.0;

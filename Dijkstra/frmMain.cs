@@ -328,7 +328,7 @@ namespace Dijkstra
         private double GetEdgeDistance()
         {
             double distance = 0.0;
-            DistanceDialog dd = new DistanceDialog();
+            frmInputDistance dd = new frmInputDistance();
             dd.StartPosition = FormStartPosition.CenterParent;
             dd.Owner = this;
 

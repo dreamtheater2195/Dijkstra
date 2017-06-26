@@ -57,11 +57,11 @@
     <Compile Include="Classes\Node.cs" />
     <Compile Include="Classes\AdjacentNode.cs" />
     <Compile Include="Classes\AdjacentNodeList.cs" />
-    <Compile Include="DistanceDialog.cs">
+    <Compile Include="frmInputDistance.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="DistanceDialog.Designer.cs">
-      <DependentUpon>DistanceDialog.cs</DependentUpon>
+    <Compile Include="frmInputDistance.Designer.cs">
+      <DependentUpon>frmInputDistance.cs</DependentUpon>
     </Compile>
     <Compile Include="frmMain.cs">
       <SubType>Form</SubType>
@@ -71,8 +71,8 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="DistanceDialog.resx">
-      <DependentUpon>DistanceDialog.cs</DependentUpon>
+    <EmbeddedResource Include="frmInputDistance.resx">
+      <DependentUpon>frmInputDistance.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmMain.resx">
       <DependentUpon>frmMain.cs</DependentUpon>

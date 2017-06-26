@@ -1,6 +1,6 @@
 ﻿namespace Dijkstra
 {
-    partial class DistanceDialog
+    partial class frmInputDistance
     {
         /// <summary>
         /// Required designer variable.
