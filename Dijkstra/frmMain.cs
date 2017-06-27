@@ -147,12 +147,12 @@ namespace Dijkstra
             Pen p;
             foreach (Edge edge in _edges)
             {
-                int firstx = edge.FirstNode.Center.X;
-                int firsty = edge.FirstNode.Center.Y;
+                int firstx = edge.SourceNode.Center.X;
+                int firsty = edge.SourceNode.Center.Y;
 
-                int secondx = edge.SecondNode.Center.X;
-                int secondy = edge.SecondNode.Center.Y;
-                if (edge.FirstNode.Center.X > edge.SecondNode.Center.X)
+                int secondx = edge.DestNode.Center.X;
+                int secondy = edge.DestNode.Center.Y;
+                if (edge.SourceNode.Center.X > edge.DestNode.Center.X)
                 {
                     firstx -= (_diameter / 2 - 5);
                     secondx += (_diameter / 2 - 5);
@@ -163,7 +163,7 @@ namespace Dijkstra
                     secondx -= (_diameter / 2 - 5);
                 }
 
-                if (edge.FirstNode.Center.Y > edge.SecondNode.Center.Y)
+                if (edge.SourceNode.Center.Y > edge.DestNode.Center.Y)
                 {
                     firsty -= (_diameter / 2 - 5);
                     secondy += (_diameter / 2 - 5);
@@ -189,7 +189,7 @@ namespace Dijkstra
                 }
                 else
                 {
-                    e.Graphics.DrawLine(p, new Point(edge.FirstNode.Center.X, edge.FirstNode.Center.Y), new Point(edge.SecondNode.Center.X, edge.SecondNode.Center.Y));
+                    e.Graphics.DrawLine(p, new Point(edge.SourceNode.Center.X, edge.SourceNode.Center.Y), new Point(edge.DestNode.Center.X, edge.DestNode.Center.Y));
                 }
 
                 //paint the distance label
@@ -263,18 +263,18 @@ namespace Dijkstra
 
         private Point GetEdgeLabelLocation(Edge edge)
         {
-            int x = Math.Abs(edge.FirstNode.Center.X - edge.SecondNode.Center.X) / 2;
-            int y = Math.Abs(edge.FirstNode.Center.Y - edge.SecondNode.Center.Y) / 2;
+            int x = Math.Abs(edge.SourceNode.Center.X - edge.DestNode.Center.X) / 2;
+            int y = Math.Abs(edge.SourceNode.Center.Y - edge.DestNode.Center.Y) / 2;
 
-            if (edge.FirstNode.Center.X > edge.SecondNode.Center.X)
-                x += edge.SecondNode.Center.X;
+            if (edge.SourceNode.Center.X > edge.DestNode.Center.X)
+                x += edge.DestNode.Center.X;
             else
-                x += edge.FirstNode.Center.X;
+                x += edge.SourceNode.Center.X;
 
-            if (edge.FirstNode.Center.Y > edge.SecondNode.Center.Y)
-                y += edge.SecondNode.Center.Y;
+            if (edge.SourceNode.Center.Y > edge.DestNode.Center.Y)
+                y += edge.DestNode.Center.Y;
             else
-                y += edge.FirstNode.Center.Y;
+                y += edge.SourceNode.Center.Y;
 
             return new Point(x, y);
         }
@@ -311,13 +311,13 @@ namespace Dijkstra
             {
                 if (cbDirectedGraph.Checked)
                 {
-                    if (edgeNode1 == _edges[i].FirstNode && edgeNode2 == _edges[i].SecondNode)
+                    if (edgeNode1 == _edges[i].SourceNode && edgeNode2 == _edges[i].DestNode)
                     {
                         return true;
                     }
                 } else
                 {
-                    if ((edgeNode1 == _edges[i].FirstNode && edgeNode2 == _edges[i].SecondNode) || (edgeNode1 == _edges[i].SecondNode && edgeNode2 == _edges[i].FirstNode))
+                    if ((edgeNode1 == _edges[i].SourceNode && edgeNode2 == _edges[i].DestNode) || (edgeNode1 == _edges[i].DestNode && edgeNode2 == _edges[i].SourceNode))
                     {
                         return true;
                     }
@@ -413,7 +413,7 @@ namespace Dijkstra
                 _adjacentNodes.RemoveAdjacentNode(currentAdjacentNode);
 
                 currentNode = currentAdjacentNode.Node;
-                currentNode.EdgeCameFrom = currentAdjacentNode.Edge;
+                currentNode.EdgeCameFrom = currentAdjacentNode.EdgeCameFrom;
                 _sptSet.Add(currentNode);
             }
         }
@@ -425,7 +425,7 @@ namespace Dijkstra
             foreach (Edge edge in node.Edges)
             {
                 neighbour = GetNeighbour(node, edge);
-                if (cbDirectedGraph.Checked && neighbour != edge.SecondNode) continue;
+                if (cbDirectedGraph.Checked && neighbour != edge.DestNode) continue;
                 if ((node.EdgeCameFrom == null || neighbour != GetNeighbour(node, node.EdgeCameFrom)))
                 {
                     if (!_sptSet.Contains(neighbour))
@@ -435,7 +435,7 @@ namespace Dijkstra
                             if (node.TotalCost + edge.Distance < neighbour.TotalCost)
                             {
                                 an = _adjacentNodes.GetAdjacentNode(neighbour);
-                                an.Edge = edge;
+                                an.EdgeCameFrom = edge;
                             }
                         }
                         else
@@ -456,10 +456,10 @@ namespace Dijkstra
 
         private Node GetNeighbour(Node node, Edge edge)
         {
-            if (edge.FirstNode == node)
-                return edge.SecondNode;
+            if (edge.SourceNode == node)
+                return edge.DestNode;
             else
-                return edge.FirstNode;
+                return edge.SourceNode;
         }
 
         private void UpdateAdjacentNodesTotalCost(Node node)
@@ -467,10 +467,10 @@ namespace Dijkstra
             double currentCost = node.TotalCost;
             foreach (AdjacentNode an in _adjacentNodes.AdjacentNodes)
             {
-                if (node == GetNeighbour(an.Node, an.Edge))
+                if (node == GetNeighbour(an.Node, an.EdgeCameFrom))
                 {
-                    if (currentCost + an.Edge.Distance < an.Node.TotalCost || an.Node.TotalCost == -1)
-                        an.Node.TotalCost = currentCost + an.Edge.Distance;
+                    if (currentCost + an.EdgeCameFrom.Distance < an.Node.TotalCost || an.Node.TotalCost == -1)
+                        an.Node.TotalCost = currentCost + an.EdgeCameFrom.Distance;
                 }
             }
 
@@ -638,7 +638,7 @@ namespace Dijkstra
                     int foundReverseEdge = 0;
                     for (int j = 0; j < _edges.Count; j++)
                     {
-                        if (_edges[j].FirstNode == _edgeNode2 && _edges[j].SecondNode == _edgeNode1)
+                        if (_edges[j].SourceNode == _edgeNode2 && _edges[j].DestNode == _edgeNode1)
                         {
                             distance = _edges[j].Distance;
                             foundReverseEdge = 1;

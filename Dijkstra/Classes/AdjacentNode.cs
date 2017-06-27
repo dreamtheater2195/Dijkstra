@@ -9,11 +9,11 @@ namespace Dijkstra.Classes
     public class AdjacentNode: IComparable<AdjacentNode>
     {
         private Node _node;
-        private Edge _edge;
-        public AdjacentNode(Node node, Edge edge)
+        private Edge _edgeCameFrom;
+        public AdjacentNode(Node node, Edge edgeCameFrom)
         {
             this._node = node;
-            this._edge = edge;
+            this._edgeCameFrom = edgeCameFrom;
         }
 
         public double TotalCost
@@ -27,10 +27,10 @@ namespace Dijkstra.Classes
             set { this._node = value; }
         }
 
-        public Edge Edge
+        public Edge EdgeCameFrom
         {
-            get { return this._edge; }
-            set { this._edge = value; }
+            get { return this._edgeCameFrom; }
+            set { this._edgeCameFrom = value; }
         }
 
         public int CompareTo(AdjacentNode rn)

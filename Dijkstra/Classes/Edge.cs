@@ -9,34 +9,34 @@ namespace Dijkstra.Classes
     public class Edge:IComparable<Edge> 
     {
         private double _distance;
-        private Node _firstNode;
-        private Node _secondNode;
+        private Node _sourceNode;
+        private Node _destNode;
 
         private const int fontSize = 10;
         private bool _visited;
 
-        public Edge(Node firstNode, Node secondNode)
+        public Edge(Node sourceNode, Node destNode)
         {
-            this._firstNode = firstNode;
-            this._secondNode = secondNode;
+            this._sourceNode = sourceNode;
+            this._destNode = destNode;
             _visited = false;
         }
 
-        public Edge(Node firstNode, Node secondNode, double distance) : this(firstNode, secondNode)
+        public Edge(Node sourceNode, Node destNode, double distance) : this(sourceNode, destNode)
         {
             this._distance = distance;
         }
 
-        public Node FirstNode
+        public Node SourceNode
         {
-            get { return this._firstNode; }
-            set { this._firstNode = value; }
+            get { return this._sourceNode; }
+            set { this._sourceNode = value; }
         }
 
-        public Node SecondNode
+        public Node DestNode
         {
-            get { return this._secondNode; }
-            set { this._secondNode = value; }
+            get { return this._destNode; }
+            set { this._destNode = value; }
         }
 
         public double Distance
