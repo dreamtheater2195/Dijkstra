@@ -22,7 +22,7 @@ namespace Dijkstra
         private const int _fontSize = 10;
         private const int _edgeFontSize = 10;
 
-        private int _count;
+        private int _nodesCount;
         private bool _findMinDistance;
 
         private List<Node> _sptSet;
@@ -39,6 +39,7 @@ namespace Dijkstra
         public frmMain()
         {
             InitializeComponent();
+            this.WindowState = FormWindowState.Maximized;
 
             _sptSet = new List<Node>();
             _adjacentNodes = new AdjacentNodeList();
@@ -46,7 +47,7 @@ namespace Dijkstra
             _nodes = new List<Node>();
             _edges = new List<Edge>();
 
-            _count = 1;
+            _nodesCount = 1;
             _findMinDistance = false;
             _isGraphConnected = true;
 
@@ -58,10 +59,10 @@ namespace Dijkstra
             _visitedBrushNode = new SolidBrush(Color.Firebrick);
             _visitedBrushNodeBorder = new SolidBrush(Color.RoyalBlue);
 
-            gObject = canvasPanel.CreateGraphics();
-
             cbCustomDistance.Checked = false;
             cbDirectedGraph.Checked = false;
+
+            this.ActiveControl = txtNumNodes;
         }
 
         #region Paint
@@ -125,7 +126,7 @@ namespace Dijkstra
                         _nodes.Add(n);
                         //PaintNode(n);
                         canvasPanel.Invalidate();
-                        _count++;
+                        _nodesCount++;
                         ClearEdgeNodes();
                     }
                 }
@@ -380,7 +381,7 @@ namespace Dijkstra
         {
             int nodeLocationX = p.X - _diameter / 2;
             int nodeLocationY = p.Y - _diameter / 2;
-            return new Node(new Point(nodeLocationX, nodeLocationY), p, _count.ToString(), _diameter);
+            return new Node(new Point(nodeLocationX, nodeLocationY), p, _nodesCount.ToString(), _diameter);
         }
 
         private Edge CreateEdge(Node node1, Node node2, double distance)
@@ -485,7 +486,7 @@ namespace Dijkstra
         private void btnClear_Click(object sender, EventArgs e)
         {
             Clear();
-            gObject.Clear(Color.White);
+            canvasPanel.CreateGraphics().Clear(Color.LightSteelBlue);
         }
 
         private void Clear()
@@ -495,7 +496,7 @@ namespace Dijkstra
             this._sptSet.Clear();
             this._adjacentNodes.Clear();
             this._findMinDistance = false;
-            this._count = 1;
+            this._nodesCount = 1;
             gbOptions.Enabled = true;
         }
 
@@ -613,7 +614,7 @@ namespace Dijkstra
                     Node n = CreateNode(p);
                     _nodes.Add(n);
                     //PaintNode(n);
-                    _count++;
+                    _nodesCount++;
                     ClearEdgeNodes();
                     numOfNodes--;
                 }
