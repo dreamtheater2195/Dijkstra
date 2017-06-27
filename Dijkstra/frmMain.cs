@@ -39,7 +39,6 @@ namespace Dijkstra
         public frmMain()
         {
             InitializeComponent();
-            this.WindowState = FormWindowState.Maximized;
 
             _sptSet = new List<Node>();
             _adjacentNodes = new AdjacentNodeList();
@@ -487,6 +486,12 @@ namespace Dijkstra
         {
             Clear();
             canvasPanel.CreateGraphics().Clear(Color.LightSteelBlue);
+        }
+
+        private void frmMain_Load(object sender, EventArgs e)
+        {
+            this.FormBorderStyle = FormBorderStyle.FixedSingle;
+            this.WindowState = FormWindowState.Maximized;
         }
 
         private void Clear()

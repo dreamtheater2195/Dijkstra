@@ -269,6 +269,7 @@
             this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "frmMain";
             this.Text = "Dijkstra";
+            this.Load += new System.EventHandler(this.frmMain_Load);
             ((System.ComponentModel.ISupportInitialize)(this.statusBar)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtNumNodes)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.txtNumEdges)).EndInit();
