@@ -511,6 +511,7 @@ namespace Dijkstra
             _edges.Clear();
             foreach (Node n in _nodes)
                 n.Edges.Clear();
+            gbOptions.Enabled = true;
             canvasPanel.Invalidate();
         }
 
@@ -618,7 +619,6 @@ namespace Dijkstra
                 {
                     Node n = CreateNode(p);
                     _nodes.Add(n);
-                    //PaintNode(n);
                     _nodesCount++;
                     ClearEdgeNodes();
                     numOfNodes--;
