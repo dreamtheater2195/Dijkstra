@@ -15,7 +15,6 @@ namespace Dijkstra
     public partial class frmMain : Form
     {
         #region Member variables
-        private Graphics gObject;
         private const int _diameter = 30;
         private const double _edgeLabelSize = 20;
 
@@ -73,7 +72,7 @@ namespace Dijkstra
                 Point clickPoint = e.Location;
                 if (HasClickedOnNode(clickPoint.X, clickPoint.Y))
                 {
-                    AssignEndNodes(clickPoint.X, clickPoint.Y);
+                    AssignEndNode(clickPoint.X, clickPoint.Y);
                     if (_edgeNode1 != null && _edgeNode2 != null)
                     {
                         if (_findMinDistance)
@@ -107,8 +106,7 @@ namespace Dijkstra
 
                                 _edgeNode1.Edges.Add(edge);
                                 _edgeNode2.Edges.Add(edge);
-
-                                //PaintEdge(edge);
+                                
                                 canvasPanel.Invalidate();
                             }
 
@@ -123,7 +121,6 @@ namespace Dijkstra
                     {
                         Node n = CreateNode(clickPoint);
                         _nodes.Add(n);
-                        //PaintNode(n);
                         canvasPanel.Invalidate();
                         _nodesCount++;
                         ClearEdgeNodes();
@@ -237,18 +234,30 @@ namespace Dijkstra
             {
                 Node currentNode = end;
                 double totalCost = 0;
+                Stack<Node> shortestPath = new Stack<Node>();
                 while (currentNode != start)
                 {
                     currentNode.Visited = true;
                     currentNode.EdgeCameFrom.Visited = true;
                     totalCost += currentNode.EdgeCameFrom.Distance;
-
-                    currentNode = GetNeighbour(currentNode, currentNode.EdgeCameFrom);
+                    shortestPath.Push(currentNode);
+                    currentNode = GetNeighbourNode(currentNode, currentNode.EdgeCameFrom);
                 }
 
                 start.Visited = true;
+                shortestPath.Push(start);
+
+                statusLabel.Text = "Shortest path from " + start.Label + " to " + end.Label + " is: \"";
+                while (shortestPath.Count > 1)
+                {
+                    currentNode = shortestPath.Pop();
+                    statusLabel.Text += currentNode.Label + " -> ";
+                }
+                currentNode = shortestPath.Pop();
+                statusLabel.Text += currentNode.Label + "\"";
+                statusLabel.Text += " with total cost: " + totalCost.ToString();
+
                 canvasPanel.Invalidate();
-                statusLabel.Text = "Total cost: " + totalCost.ToString();
             }
             else
             {
@@ -343,7 +352,7 @@ namespace Dijkstra
             return Math.Round(Math.Sqrt(Math.Pow(p1.X - p2.X, 2) + Math.Pow(p1.Y - p2.Y, 2)), 2);
         }
 
-        private void AssignEndNodes(int x, int y)
+        private void AssignEndNode(int x, int y)
         {
             Node node = GetNodeAt(x, y);
             if (node != null)
@@ -424,9 +433,9 @@ namespace Dijkstra
             AdjacentNode an;
             foreach (Edge edge in node.Edges)
             {
-                neighbour = GetNeighbour(node, edge);
+                neighbour = GetNeighbourNode(node, edge);
                 if (cbDirectedGraph.Checked && neighbour != edge.DestNode) continue;
-                if ((node.EdgeCameFrom == null || neighbour != GetNeighbour(node, node.EdgeCameFrom)))
+                if ((node.EdgeCameFrom == null || neighbour != GetNeighbourNode(node, node.EdgeCameFrom)))
                 {
                     if (!_sptSet.Contains(neighbour))
                     {
@@ -454,7 +463,7 @@ namespace Dijkstra
             statusLabel.Text = "Select two nodes for which you want to find the shortest path";
         }
 
-        private Node GetNeighbour(Node node, Edge edge)
+        private Node GetNeighbourNode(Node node, Edge edge)
         {
             if (edge.SourceNode == node)
                 return edge.DestNode;
@@ -467,7 +476,7 @@ namespace Dijkstra
             double currentCost = node.TotalCost;
             foreach (AdjacentNode an in _adjacentNodes.AdjacentNodes)
             {
-                if (node == GetNeighbour(an.Node, an.EdgeCameFrom))
+                if (node == GetNeighbourNode(an.Node, an.EdgeCameFrom))
                 {
                     if (currentCost + an.EdgeCameFrom.Distance < an.Node.TotalCost || an.Node.TotalCost == -1)
                         an.Node.TotalCost = currentCost + an.EdgeCameFrom.Distance;
@@ -503,6 +512,7 @@ namespace Dijkstra
             this._findMinDistance = false;
             this._nodesCount = 1;
             gbOptions.Enabled = true;
+            statusLabel.Text = "Click on the canvas to create a node.";
         }
 
         private void btnClearEdges_Click(object sender, EventArgs e)
@@ -513,12 +523,14 @@ namespace Dijkstra
                 n.Edges.Clear();
             gbOptions.Enabled = true;
             canvasPanel.Invalidate();
+            statusLabel.Text = "Click on the canvas to create a node.";
         }
 
         private void btnRestart_Click(object sender, EventArgs e)
         {
             Restart();
             canvasPanel.Invalidate();
+            statusLabel.Text = "Click on the canvas to create a node.";
         }
 
         private void Restart()
